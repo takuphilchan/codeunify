@@ -20,7 +20,7 @@ To install **CodeUnify**, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/codeunify.git
+    git clone https://github.com/takuphilchan/codeunify.git
     cd codeunify
     ```
 
