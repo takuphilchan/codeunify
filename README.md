@@ -20,8 +20,8 @@ To install **CodeUnify**, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/CodeUnify.git
-    cd CodeUnify
+    git clone https://github.com/yourusername/codeunify.git
+    cd codeunify
     ```
 
 2. **Install dependencies**:
