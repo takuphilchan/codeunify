@@ -1,22 +1,56 @@
 import os
 import logging
 import argparse
+import mimetypes
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def combine_files(input_dir, output_file, file_types=None, comment_format=None):
+# List of metadata directories to exclude
+EXCLUDED_DIRS = {'.git', '__pycache__', '.idea', '.vscode'}
+
+# Set of common programming/text file extensions that we consider as text,
+# even if mimetypes.guess_type returns None or a non-text value.
+COMMON_TEXT_EXTENSIONS = {'.py', '.js', '.cpp', '.c', '.java', '.cu', '.h', '.hpp', '.cs', '.rb', '.php', '.go', '.rs', '.ts'}
+
+def get_default_comment_format(output_file):
+    """
+    Returns a default comment format dictionary based on the output file's extension.
+    For example, for .py files it returns markers using '#' and for languages like
+    .js, .cpp, .java, etc. it returns markers using '//'. For .txt files, a dashed style is used.
+    """
+    ext = os.path.splitext(output_file)[1].lower()
+    if ext in {'.py', '.sh', '.rb', '.pl'}:
+        comment_char = '#'
+    elif ext in {'.js', '.ts', '.c', '.cpp', '.java', '.cs', '.go', '.cu'}:
+        comment_char = '//'
+    elif ext in {'.txt'}:
+        comment_char = ''
+    else:
+        comment_char = '#'  # default fallback
+
+    if comment_char:
+        start = f"{comment_char} >>>>> START: {{filepath}} <<<<<"
+        end = f"{comment_char} <<<<< END: {{filepath}} >>>>>"
+    else:
+        start = f"----- START: {{filepath}} -----"
+        end = f"----- END: {{filepath}} -----"
+    return {"start": start, "end": end}
+
+def combine_files(input_dir, output_file, file_types=None, comment_format=None, block_indent="\t"):
     """
     Combines all code files in the given directory and its subdirectories into a single file.
     Each section will be prefixed with a comment containing the original file's path, starting with the input folder name.
+    Optionally, the file content can be indented (block_indent) to visually separate it from the markers.
     
     Parameters:
     - input_dir (str): Directory containing the code files to combine.
     - output_file (str): Path where the combined code should be saved.
     - file_types (list): List of file extensions to include. Defaults to None (include all files).
     - comment_format (dict): Custom comment format. 
-        Defaults to {"start": "# Start of {filepath}", "end": "# End of {filepath}"}.
+        Defaults to one based on output_file extension.
+    - block_indent (str): String used to indent each line of file content. Default is "\t" (a tab).
     
     Raises:
     - FileNotFoundError: If the input directory is not found.
@@ -25,7 +59,7 @@ def combine_files(input_dir, output_file, file_types=None, comment_format=None):
     if file_types is None:
         file_types = []  # Allow all file types by default
     if comment_format is None:
-        comment_format = {"start": "# Start of {filepath}", "end": "# End of {filepath}"}
+        comment_format = get_default_comment_format(output_file)
     
     # Check if the input directory exists
     if not os.path.exists(input_dir):
@@ -39,6 +73,9 @@ def combine_files(input_dir, output_file, file_types=None, comment_format=None):
     # Recursively collect files that match the file_types criteria (or all files if file_types is empty)
     files_to_combine = []
     for root, _, files in os.walk(abs_input_dir):
+        # Skip metadata directories
+        if any(excluded in root.split(os.sep) for excluded in EXCLUDED_DIRS):
+            continue
         for filename in files:
             if not file_types or any(filename.endswith(ext) for ext in file_types):
                 files_to_combine.append(os.path.join(root, filename))
@@ -53,6 +90,15 @@ def combine_files(input_dir, output_file, file_types=None, comment_format=None):
     with open(output_file, 'w', encoding='utf-8') as outfile:
         for filepath in files_to_combine:
             try:
+                # Determine the file extension in lowercase
+                ext = os.path.splitext(filepath)[1].lower()
+                # Attempt to guess the MIME type of the file
+                mime_type, _ = mimetypes.guess_type(filepath)
+                # If MIME type is not detected or doesn't indicate text, check if the extension is known
+                if (mime_type is None or not mime_type.startswith("text")) and ext not in COMMON_TEXT_EXTENSIONS:
+                    logger.warning(f"Skipping non-text (binary) file: {filepath}")
+                    continue
+
                 with open(filepath, 'r', encoding='utf-8') as infile:
                     # Get the path relative to the input directory and prepend the input folder name
                     relative_path = os.path.relpath(filepath, abs_input_dir)
@@ -60,10 +106,11 @@ def combine_files(input_dir, output_file, file_types=None, comment_format=None):
                     
                     # Write a comment marking the start of the file content
                     start_comment = comment_format["start"].format(filepath=display_path)
-                    outfile.write(f"{start_comment}\n")
+                    outfile.write(f"{start_comment}\n\n")
                     
-                    # Write the file's content
+                    # Read the file's content and indent each line with block_indent
                     content = infile.read()
+                    content = "\n".join(block_indent + line for line in content.splitlines())
                     outfile.write(content)
                     outfile.write("\n\n")  # Add spacing between files
                     
@@ -88,6 +135,8 @@ def parse_args():
     parser.add_argument('--comment_format', type=str, default=None,
                         help=("Custom comment format as a dictionary string. "
                               "For example: \"{'start': '# Begin: {filepath}', 'end': '# Finish: {filepath}'}\""))
+    parser.add_argument('--block_indent', type=str, default="\t",
+                        help="String to prepend to each line of the file content (default is a tab).")
     return parser.parse_args()
 
 def main():
@@ -106,7 +155,7 @@ def main():
         comment_format = None
     
     try:
-        combine_files(args.input_dir, args.output_file, args.file_types, comment_format)
+        combine_files(args.input_dir, args.output_file, args.file_types, comment_format, args.block_indent)
     except Exception as e:
         logger.error(f"An error occurred: {e}")
 
