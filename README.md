@@ -124,24 +124,31 @@ python combine.py /projects/code/ combined_output.txt
 The resulting `combined_output.txt` will look something like this:
 
 ```txt
-# Start of app.py
-def main():
-    print("Hello, World!")
-# End of app.py
+# >>>>> START: app.py <<<<<
 
-# Start of utils.js
-function greet() {
-    console.log("Hello from JS!");
-}
-# End of utils.js
+	 def main():
+	     print("Hello, World!")
 
-# Start of index.html
-<html>
-    <body>
-        <h1>Welcome to my website</h1>
-    </body>
-</html>
-# End of index.html
+# <<<<< END: app.py >>>>>
+
+// >>>>> START: utils.js <<<<<
+
+	 function greet() {
+	     console.log("Hello from JS!");
+	 }
+
+// <<<<< END: utils.js >>>>>
+
+----- START: index.html -----
+
+	 <html>
+	     <body>
+	         <h1>Welcome to my website</h1>
+	     </body>
+	 </html>
+
+----- END: index.html -----
+
 ```
 
 ## How It Aids AI Tools
