@@ -74,7 +74,7 @@ This will use `// Begin {filename}` and `// End {filename}` as comments around e
 If you'd like to use this library programmatically in your Python scripts, you can import the `combine_files` function and call it directly:
 
 ```python
-from codeunify.combine import combine_files
+from codeunify.core.combine import combine_files
 
 combine_files('/path/to/code/files', 'output_combined_file.txt', file_types=['.py', '.js'])
 ```
