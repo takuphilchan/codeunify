@@ -1,9 +1,10 @@
 import unittest
 import os
 from codeunify.core.combine import combine_files
+from codeunify.core.combine import get_comment_format
 
 class TestCombineFiles(unittest.TestCase):
-
+    
     def setUp(self):
         """Setup test files and directories."""
         self.test_dir = "test_files"
@@ -29,6 +30,8 @@ class TestCombineFiles(unittest.TestCase):
 
     def test_combine_files(self):
         """Test combining files into one output."""
+        # Get absolute path of test directory
+        abs_test_dir = os.path.abspath(self.test_dir)
         combine_files(self.test_dir, self.output_file)
         
         # Ensure output file is created
@@ -38,18 +41,24 @@ class TestCombineFiles(unittest.TestCase):
         with open(self.output_file, 'r') as f:
             combined_content = f.read()
 
-        # Check if the comments are present in the combined content
+        # Check if the correct comments are present in the combined content
         for filename, _ in self.files:
-            self.assertIn(f"# Start of {filename}", combined_content)
-            self.assertIn(f"# End of {filename}", combined_content)
-
+            file_path = os.path.join(abs_test_dir, filename)
+            comment_format = get_comment_format(file_path)
+            expected_start = comment_format["start"].format(filepath=file_path)
+            expected_end = comment_format["end"].format(filepath=file_path)
+            self.assertIn(expected_start, combined_content)
+            self.assertIn(expected_end, combined_content)
+            
             # Check if file content is present in the combined file
             with open(os.path.join(self.test_dir, filename), 'r') as f:
                 file_content = f.read()
                 self.assertIn(file_content, combined_content)
-    
+
     def test_combine_with_specified_file_types(self):
         """Test combining files with specified file types."""
+        # Get absolute path of test directory
+        abs_test_dir = os.path.abspath(self.test_dir)
         combine_files(self.test_dir, self.output_file, file_types=['.py', '.js'])
         
         # Ensure output file is created
@@ -59,21 +68,26 @@ class TestCombineFiles(unittest.TestCase):
         with open(self.output_file, 'r') as f:
             combined_content = f.read()
 
-        # Check if the comments are present for specific file types
+        # Check if the correct comments are present for specific file types
         for filename, _ in self.files:
+            file_path = os.path.join(abs_test_dir, filename)
+            comment_format = get_comment_format(file_path)
+            expected_start = comment_format["start"].format(filepath=file_path)
+            expected_end = comment_format["end"].format(filepath=file_path)
+            
             if filename.endswith('.py') or filename.endswith('.js'):
-                self.assertIn(f"# Start of {filename}", combined_content)
-                self.assertIn(f"# End of {filename}", combined_content)
-
+                self.assertIn(expected_start, combined_content)
+                self.assertIn(expected_end, combined_content)
+                
                 # Check if file content is present in the combined file
                 with open(os.path.join(self.test_dir, filename), 'r') as f:
                     file_content = f.read()
                     self.assertIn(file_content, combined_content)
             else:
                 # Ensure files that do not match the specified file types are not included
-                self.assertNotIn(f"# Start of {filename}", combined_content)
-                self.assertNotIn(f"# End of {filename}", combined_content)
-    
+                self.assertNotIn(expected_start, combined_content)
+                self.assertNotIn(expected_end, combined_content)
+
     def tearDown(self):
         """Clean up test files and output."""
         for filename, _ in self.files:
