@@ -1,1531 +1,627 @@
------ START: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
-	# CodeUnify: Combine Multiple Code Files into One
-
-	## Introduction
-
-	**CodeUnify** is a Python library that helps developers combine multiple source code files from a directory into a single output file. This library can include files of any type (e.g., Python, JavaScript, Java, C, etc.) and provides the flexibility to specify which files should be included. The combined output will be organized with comments indicating the start and end of each file, preserving context for each file in the combined output.
-
-	This tool is useful for **AI-assisted development tools** that need access to multiple files and their content for understanding context, tracking errors, or facilitating debugging. By combining all relevant files into a single file with clear markers, AI tools can process all the code at once and provide better context-based suggestions and error resolutions.
-
-	## Features
-
-	- **Combine files of any type**: The tool can handle any source code files (e.g., `.py`, `.js`, `.java`, `.c`, `.txt`, etc.).
-	- **Customizable comment formatting**: Easily add custom comments at the start and end of each file for better context.
-	- **Command-line integration**: Combine files directly from the command line with flexible options for file type inclusion and comment formatting.
-	- **Error Context**: For AI tools, having all files in one place with clear markers makes it easier to analyze errors and provide solutions with full context of the files in the directory.
-	- **Improved AI Assistance**: By providing all the code in a single output file, AI systems can better understand relationships between files, making their suggestions and error tracking more accurate.
-
-	## Installation
-
-	To install **CodeUnify**, follow these steps:
-
-	1. **Clone the repository**:
-	    ```bash
-	    git clone https://github.com/takuphilchan/codeunify.git
-	    cd codeunify
-	    ```
-
-	2. **Install dependencies**:
-	    If you are using `pip`, you can install the necessary dependencies:
-	    ```bash
-	    pip install -r requirements.txt
-	    ```
-
-	3. **Ensure Python 3.x is installed**: This library works with Python 3.x versions. You can check your Python version using:
-	    ```bash
-	    python --version
-	    ```
-
-	## Usage
-
-	### 1. Combine Files with Default Settings
-
-	To combine all code files from a directory into a single output file using default settings, run the following command:
-
-	```bash
-	python combine.py /path/to/code/files output_combined_file.txt
-	```
-
-	This will combine all files in the specified directory (`/path/to/code/files`) and save the result in `output_combined_file.txt`. Each file will be surrounded by comments indicating its start and end.
-
-	### 2. Combine Files with Specific File Types
-
-	If you want to specify which types of files to combine (e.g., only `.py` and `.js` files), use the `--file_types` flag followed by the extensions:
-
-	```bash
-	python combine.py /path/to/code/files output_combined_file.txt --file_types .py .js
-	```
-
-	This command will only combine files with `.py` and `.js` extensions from the specified directory.
-
-	### 3. Customize Comment Format
-
-	You can also customize the comment format using the `--comment_format` flag. The format must be a dictionary in the form of a string, where `{filename}` will be replaced with the actual filename.
-
-	Example:
-
-	```bash
-	python combine.py /path/to/code/files output_combined_file.txt --comment_format "{'start': '// Begin {filename}', 'end': '// End {filename}'}"
-	```
-
-	This will use `// Begin {filename}` and `// End {filename}` as comments around each file.
-
-	### 4. Importing and Using the Function in Your Own Code
-
-	If you'd like to use this library programmatically in your Python scripts, you can import the `combine_files` function and call it directly:
-
-	```python
-	from codeunify.core.combine import combine_files
-
-	combine_files('/path/to/code/files', 'output_combined_file.txt', file_types=['.py', '.js'])
-	```
-
-	### 5. Testing and Ensuring Accuracy
-
-	You can run the provided test cases to verify the functionality of the library. The tests ensure that files are correctly combined, and the comment markers are correctly placed.
-
-	To run the tests, use:
-
-	```bash
-	python -m unittest discover tests
-	```
-
-	## Example
-
-	Let’s say you have the following files in a folder (`/projects/code/`):
-
-	- `app.py`:
-	  ```python
-	  def main():
-	      print("Hello, World!")
-	  ```
-
-	- `utils.js`:
-	  ```javascript
-	  function greet() {
-	      console.log("Hello from JS!");
-	  }
-	  ```
-
-	- `index.html`:
-	  ```html
-	  <html>
-	      <body>
-	          <h1>Welcome to my website</h1>
-	      </body>
-	  </html>
-	  ```
-
-	You can run the following command to combine all these files into one:
-
-	```bash
-	python combine.py /projects/code/ combined_output.txt
-	```
-
-	The resulting `combined_output.txt` will look something like this:
-
-	```txt
-	# >>>>> START: app.py <<<<<
-
-		 def main():
-		     print("Hello, World!")
-
-	# <<<<< END: app.py >>>>>
-
-	// >>>>> START: utils.js <<<<<
-
-		 function greet() {
-		     console.log("Hello from JS!");
-		 }
-
-	// <<<<< END: utils.js >>>>>
-
-	----- START: index.html -----
-
-		 <html>
-		     <body>
-		         <h1>Welcome to my website</h1>
-		     </body>
-		 </html>
-
-	----- END: index.html -----
-
-	```
-
-	## How It Aids AI Tools
-
-	Many AI tools and systems need context from multiple files when analyzing or debugging code. By combining all relevant files into one file with clear markers, **CodeUnify** makes it easier for AI systems to:
-
-	1. **Provide Accurate Error Analysis**: The AI tool has access to all files in a single context, allowing it to trace errors across multiple files and give better, more holistic suggestions.
-   
-	2. **Support Code Completion**: Having access to multiple related files lets the AI tool provide better code completion suggestions by knowing the content of all relevant files.
-
-	3. **Enhance Code Understanding**: AI tools that need to understand how various files interact with each other can process the entire set of files in one go, leading to more context-aware and intelligent recommendations.
-
-	4. **Facilitate Debugging**: When working with multiple files, it's easy to miss context or overlook interactions between files. Combining them into one allows AI systems to quickly spot issues that may otherwise be difficult to detect.
-
-	## Contributing
-
-	We welcome contributions! If you would like to improve this library, please fork the repository, make your changes, and submit a pull request.
-
-	## License
-
-	This library is licensed under the MIT License.
-
-	---
-
------ END: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
------ START: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-	numpy
-
------ END: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py <<<<<
-
-
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/core/combine.py <<<<<
-
-	import os
-	import logging
-	import argparse
-	import mimetypes
-
-	# Set up logging
-	logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-	logger = logging.getLogger(__name__)
-
-	# List of metadata directories to exclude
-	EXCLUDED_DIRS = {'.git', '__pycache__', '.idea', '.vscode'}
-
-	# Set of common programming/text file extensions to include, even if MIME detection fails
-	COMMON_TEXT_EXTENSIONS = {'.py', '.js', '.cpp', '.c', '.java', '.cu', '.h', '.hpp', '.cs', '.rb', '.php', '.go', '.rs', '.ts'}
-
-	# Comment formats based on file extension
-	COMMENT_STYLES = {
-	    "hash": {"ext": {'.py', '.sh', '.rb', '.pl'}, "start": "# >>>>> START: {filepath} <<<<<", "end": "# <<<<< END: {filepath} >>>>>"},
-	    "slash": {"ext": {'.js', '.ts', '.c', '.cpp', '.java', '.cs', '.go', '.cu'}, "start": "// >>>>> START: {filepath} <<<<<", "end": "// <<<<< END: {filepath} >>>>>"},
-	    "html": {"ext": {'.html', '.xml'}, "start": "<!-- >>>>> START: {filepath} <<<<< -->", "end": "<!-- <<<<< END: {filepath} >>>>> -->"},
-	    "dash": {"ext": {'.txt', '.md'}, "start": "----- START: {filepath} -----", "end": "----- END: {filepath} -----"},
-	}
-
-	def get_comment_format(file_path):
-	    """
-	    Determines the correct comment format based on the input file's extension.
-	    """
-	    ext = os.path.splitext(file_path)[1].lower()
-    
-	    for style in COMMENT_STYLES.values():
-	        if ext in style["ext"]:
-	            return {"start": style["start"].format(filepath=file_path), "end": style["end"].format(filepath=file_path)}
-    
-	    # Default fallback (hash-style comments)
-	    return {"start": "# >>>>> START: {filepath} <<<<<".format(filepath=file_path), "end": "# <<<<< END: {filepath} >>>>>".format(filepath=file_path)}
-
-	def combine_files(input_dir, output_file, file_types=None, block_indent="\t"):
-	    """
-	    Combines all code files in the given directory and its subdirectories into a single file.
-	    Each section will be prefixed with a comment containing the original file's path.
-	    File content is indented for clarity.
-	    """
-	    if file_types is None:
-	        file_types = []  # Allow all file types by default
-    
-	    if not os.path.exists(input_dir):
-	        logger.error(f"The directory '{input_dir}' does not exist.")
-	        raise FileNotFoundError(f"The directory '{input_dir}' does not exist.")
-
-	    abs_input_dir = os.path.abspath(input_dir)
-	    input_dir_name = os.path.basename(abs_input_dir)
-    
-	    files_to_combine = []
-	    for root, _, files in os.walk(abs_input_dir):
-	        if any(excluded in root.split(os.sep) for excluded in EXCLUDED_DIRS):
-	            continue
-	        for filename in files:
-	            if not file_types or any(filename.endswith(ext) for ext in file_types):
-	                files_to_combine.append(os.path.join(root, filename))
-    
-	    if not files_to_combine:
-	        logger.error(f"No valid code files found in the directory '{input_dir}'.")
-	        raise ValueError(f"No valid code files found in the directory '{input_dir}'.")
-    
-	    logger.info(f"Found {len(files_to_combine)} files to combine.")
-    
-	    with open(output_file, 'w', encoding='utf-8') as outfile:
-	        for filepath in files_to_combine:
-	            try:
-	                ext = os.path.splitext(filepath)[1].lower()
-	                mime_type, _ = mimetypes.guess_type(filepath)
-	                if (mime_type is None or not mime_type.startswith("text")) and ext not in COMMON_TEXT_EXTENSIONS:
-	                    logger.warning(f"Skipping non-text (binary) file: {filepath}")
-	                    continue
-
-	                comment_format = get_comment_format(filepath)
-	                relative_path = os.path.relpath(filepath, abs_input_dir)
-	                display_path = os.path.join(input_dir_name, relative_path)
-
-	                start_comment = comment_format["start"].replace("{filepath}", display_path)
-	                end_comment = comment_format["end"].replace("{filepath}", display_path)
-
-	                outfile.write(f"{start_comment}\n\n")
-                
-	                with open(filepath, 'r', encoding='utf-8') as infile:
-	                    content = infile.read()
-	                    content = "\n".join(block_indent + line if line.strip() else line for line in content.splitlines())
-	                    outfile.write(content)
-	                    outfile.write("\n\n")
-
-	                outfile.write(f"{end_comment}\n\n")
-	            except Exception as e:
-	                logger.error(f"Error reading file {filepath}: {e}")
-	                continue
-
-	    logger.info(f"All files have been successfully combined into '{output_file}'.")
-
-	def parse_args():
-	    """
-	    Parses command line arguments.
-	    """
-	    parser = argparse.ArgumentParser(description="Combine code files into a single output file, preserving folder structure.")
-	    parser.add_argument('input_dir', help="Directory containing the code files to combine")
-	    parser.add_argument('output_file', help="Path where the combined code should be saved")
-	    parser.add_argument('--file_types', nargs='*', default=[], help="List of file extensions to include (e.g., .py .txt). Default is to include all files.")
-	    parser.add_argument('--block_indent', type=str, default="\t", help="String to prepend to each line of file content (default is a tab).")
-	    return parser.parse_args()
-
-	def main():
-	    args = parse_args()
-    
-	    try:
-	        combine_files(args.input_dir, args.output_file, args.file_types, args.block_indent)
-	    except Exception as e:
-	        logger.error(f"An error occurred: {e}")
-
-	if __name__ == "__main__":
-	    main()
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/core/combine.py >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/core/__init__.py <<<<<
-
-
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/core/__init__.py >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.py <<<<<
-
-	----- START: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
-		# CodeUnify: Combine Multiple Code Files into One
-
-		## Introduction
-
-		**CodeUnify** is a Python library that helps developers combine multiple source code files from a directory into a single output file. This library can include files of any type (e.g., Python, JavaScript, Java, C, etc.) and provides the flexibility to specify which files should be included. The combined output will be organized with comments indicating the start and end of each file, preserving context for each file in the combined output.
-
-		This tool is useful for **AI-assisted development tools** that need access to multiple files and their content for understanding context, tracking errors, or facilitating debugging. By combining all relevant files into a single file with clear markers, AI tools can process all the code at once and provide better context-based suggestions and error resolutions.
-
-		## Features
-
-		- **Combine files of any type**: The tool can handle any source code files (e.g., `.py`, `.js`, `.java`, `.c`, `.txt`, etc.).
-		- **Customizable comment formatting**: Easily add custom comments at the start and end of each file for better context.
-		- **Command-line integration**: Combine files directly from the command line with flexible options for file type inclusion and comment formatting.
-		- **Error Context**: For AI tools, having all files in one place with clear markers makes it easier to analyze errors and provide solutions with full context of the files in the directory.
-		- **Improved AI Assistance**: By providing all the code in a single output file, AI systems can better understand relationships between files, making their suggestions and error tracking more accurate.
-
-		## Installation
-
-		To install **CodeUnify**, follow these steps:
-
-		1. **Clone the repository**:
-		    ```bash
-		    git clone https://github.com/takuphilchan/codeunify.git
-		    cd codeunify
-		    ```
-
-		2. **Install dependencies**:
-		    If you are using `pip`, you can install the necessary dependencies:
-		    ```bash
-		    pip install -r requirements.txt
-		    ```
-
-		3. **Ensure Python 3.x is installed**: This library works with Python 3.x versions. You can check your Python version using:
-		    ```bash
-		    python --version
-		    ```
-
-		## Usage
-
-		### 1. Combine Files with Default Settings
-
-		To combine all code files from a directory into a single output file using default settings, run the following command:
-
-		```bash
-		python combine.py /path/to/code/files output_combined_file.txt
-		```
-
-		This will combine all files in the specified directory (`/path/to/code/files`) and save the result in `output_combined_file.txt`. Each file will be surrounded by comments indicating its start and end.
-
-		### 2. Combine Files with Specific File Types
-
-		If you want to specify which types of files to combine (e.g., only `.py` and `.js` files), use the `--file_types` flag followed by the extensions:
-
-		```bash
-		python combine.py /path/to/code/files output_combined_file.txt --file_types .py .js
-		```
-
-		This command will only combine files with `.py` and `.js` extensions from the specified directory.
-
-		### 3. Customize Comment Format
-
-		You can also customize the comment format using the `--comment_format` flag. The format must be a dictionary in the form of a string, where `{filename}` will be replaced with the actual filename.
-
-		Example:
-
-		```bash
-		python combine.py /path/to/code/files output_combined_file.txt --comment_format "{'start': '// Begin {filename}', 'end': '// End {filename}'}"
-		```
-
-		This will use `// Begin {filename}` and `// End {filename}` as comments around each file.
-
-		### 4. Importing and Using the Function in Your Own Code
-
-		If you'd like to use this library programmatically in your Python scripts, you can import the `combine_files` function and call it directly:
-
-		```python
-		from codeunify.core.combine import combine_files
-
-		combine_files('/path/to/code/files', 'output_combined_file.txt', file_types=['.py', '.js'])
-		```
-
-		### 5. Testing and Ensuring Accuracy
-
-		You can run the provided test cases to verify the functionality of the library. The tests ensure that files are correctly combined, and the comment markers are correctly placed.
-
-		To run the tests, use:
-
-		```bash
-		python -m unittest discover tests
-		```
-
-		## Example
-
-		Let’s say you have the following files in a folder (`/projects/code/`):
-
-		- `app.py`:
-		  ```python
-		  def main():
-		      print("Hello, World!")
-		  ```
-
-		- `utils.js`:
-		  ```javascript
-		  function greet() {
-		      console.log("Hello from JS!");
-		  }
-		  ```
-
-		- `index.html`:
-		  ```html
-		  <html>
-		      <body>
-		          <h1>Welcome to my website</h1>
-		      </body>
-		  </html>
-		  ```
-
-		You can run the following command to combine all these files into one:
-
-		```bash
-		python combine.py /projects/code/ combined_output.txt
-		```
-
-		The resulting `combined_output.txt` will look something like this:
-
-		```txt
-		# >>>>> START: app.py <<<<<
-
-			 def main():
-			     print("Hello, World!")
-
-		# <<<<< END: app.py >>>>>
-
-		// >>>>> START: utils.js <<<<<
-
-			 function greet() {
-			     console.log("Hello from JS!");
-			 }
-
-		// <<<<< END: utils.js >>>>>
-
-		----- START: index.html -----
-
-			 <html>
-			     <body>
-			         <h1>Welcome to my website</h1>
-			     </body>
-			 </html>
-
-		----- END: index.html -----
-
-		```
-
-		## How It Aids AI Tools
-
-		Many AI tools and systems need context from multiple files when analyzing or debugging code. By combining all relevant files into one file with clear markers, **CodeUnify** makes it easier for AI systems to:
-
-		1. **Provide Accurate Error Analysis**: The AI tool has access to all files in a single context, allowing it to trace errors across multiple files and give better, more holistic suggestions.
-   
-		2. **Support Code Completion**: Having access to multiple related files lets the AI tool provide better code completion suggestions by knowing the content of all relevant files.
-
-		3. **Enhance Code Understanding**: AI tools that need to understand how various files interact with each other can process the entire set of files in one go, leading to more context-aware and intelligent recommendations.
-
-		4. **Facilitate Debugging**: When working with multiple files, it's easy to miss context or overlook interactions between files. Combining them into one allows AI systems to quickly spot issues that may otherwise be difficult to detect.
-
-		## Contributing
-
-		We welcome contributions! If you would like to improve this library, please fork the repository, make your changes, and submit a pull request.
-
-		## License
-
-		This library is licensed under the MIT License.
-
-		---
-
-	----- END: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
-	----- START: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-		numpy
-
-	----- END: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py <<<<<
-
-
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/core/combine.py <<<<<
-
-		import os
-		import logging
-		import argparse
-		import mimetypes
-
-		# Set up logging
-		logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-		logger = logging.getLogger(__name__)
-
-		# List of metadata directories to exclude
-		EXCLUDED_DIRS = {'.git', '__pycache__', '.idea', '.vscode'}
-
-		# Set of common programming/text file extensions to include, even if MIME detection fails
-		COMMON_TEXT_EXTENSIONS = {'.py', '.js', '.cpp', '.c', '.java', '.cu', '.h', '.hpp', '.cs', '.rb', '.php', '.go', '.rs', '.ts'}
-
-		# Comment formats based on file extension
-		COMMENT_STYLES = {
-		    "hash": {"ext": {'.py', '.sh', '.rb', '.pl'}, "start": "# >>>>> START: {filepath} <<<<<", "end": "# <<<<< END: {filepath} >>>>>"},
-		    "slash": {"ext": {'.js', '.ts', '.c', '.cpp', '.java', '.cs', '.go', '.cu'}, "start": "// >>>>> START: {filepath} <<<<<", "end": "// <<<<< END: {filepath} >>>>>"},
-		    "html": {"ext": {'.html', '.xml'}, "start": "<!-- >>>>> START: {filepath} <<<<< -->", "end": "<!-- <<<<< END: {filepath} >>>>> -->"},
-		    "dash": {"ext": {'.txt', '.md'}, "start": "----- START: {filepath} -----", "end": "----- END: {filepath} -----"},
-		}
-
-		def get_comment_format(file_path):
-		    """
-		    Determines the correct comment format based on the input file's extension.
-		    """
-		    ext = os.path.splitext(file_path)[1].lower()
-    
-		    for style in COMMENT_STYLES.values():
-		        if ext in style["ext"]:
-		            return {"start": style["start"].format(filepath=file_path), "end": style["end"].format(filepath=file_path)}
-    
-		    # Default fallback (hash-style comments)
-		    return {"start": "# >>>>> START: {filepath} <<<<<".format(filepath=file_path), "end": "# <<<<< END: {filepath} >>>>>".format(filepath=file_path)}
-
-		def combine_files(input_dir, output_file, file_types=None, block_indent="\t"):
-		    """
-		    Combines all code files in the given directory and its subdirectories into a single file.
-		    Each section will be prefixed with a comment containing the original file's path.
-		    File content is indented for clarity.
-		    """
-		    if file_types is None:
-		        file_types = []  # Allow all file types by default
-    
-		    if not os.path.exists(input_dir):
-		        logger.error(f"The directory '{input_dir}' does not exist.")
-		        raise FileNotFoundError(f"The directory '{input_dir}' does not exist.")
-
-		    abs_input_dir = os.path.abspath(input_dir)
-		    input_dir_name = os.path.basename(abs_input_dir)
-    
-		    files_to_combine = []
-		    for root, _, files in os.walk(abs_input_dir):
-		        if any(excluded in root.split(os.sep) for excluded in EXCLUDED_DIRS):
-		            continue
-		        for filename in files:
-		            if not file_types or any(filename.endswith(ext) for ext in file_types):
-		                files_to_combine.append(os.path.join(root, filename))
-    
-		    if not files_to_combine:
-		        logger.error(f"No valid code files found in the directory '{input_dir}'.")
-		        raise ValueError(f"No valid code files found in the directory '{input_dir}'.")
-    
-		    logger.info(f"Found {len(files_to_combine)} files to combine.")
-    
-		    with open(output_file, 'w', encoding='utf-8') as outfile:
-		        for filepath in files_to_combine:
-		            try:
-		                ext = os.path.splitext(filepath)[1].lower()
-		                mime_type, _ = mimetypes.guess_type(filepath)
-		                if (mime_type is None or not mime_type.startswith("text")) and ext not in COMMON_TEXT_EXTENSIONS:
-		                    logger.warning(f"Skipping non-text (binary) file: {filepath}")
-		                    continue
-
-		                comment_format = get_comment_format(filepath)
-		                relative_path = os.path.relpath(filepath, abs_input_dir)
-		                display_path = os.path.join(input_dir_name, relative_path)
-
-		                start_comment = comment_format["start"].replace("{filepath}", display_path)
-		                end_comment = comment_format["end"].replace("{filepath}", display_path)
-
-		                outfile.write(f"{start_comment}\n\n")
-                
-		                with open(filepath, 'r', encoding='utf-8') as infile:
-		                    content = infile.read()
-		                    content = "\n".join(block_indent + line if line.strip() else line for line in content.splitlines())
-		                    outfile.write(content)
-		                    outfile.write("\n\n")
-
-		                outfile.write(f"{end_comment}\n\n")
-		            except Exception as e:
-		                logger.error(f"Error reading file {filepath}: {e}")
-		                continue
-
-		    logger.info(f"All files have been successfully combined into '{output_file}'.")
-
-		def parse_args():
-		    """
-		    Parses command line arguments.
-		    """
-		    parser = argparse.ArgumentParser(description="Combine code files into a single output file, preserving folder structure.")
-		    parser.add_argument('input_dir', help="Directory containing the code files to combine")
-		    parser.add_argument('output_file', help="Path where the combined code should be saved")
-		    parser.add_argument('--file_types', nargs='*', default=[], help="List of file extensions to include (e.g., .py .txt). Default is to include all files.")
-		    parser.add_argument('--block_indent', type=str, default="\t", help="String to prepend to each line of file content (default is a tab).")
-		    return parser.parse_args()
-
-		def main():
-		    args = parse_args()
-    
-		    try:
-		        combine_files(args.input_dir, args.output_file, args.file_types, args.block_indent)
-		    except Exception as e:
-		        logger.error(f"An error occurred: {e}")
-
-		if __name__ == "__main__":
-		    main()
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/core/combine.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/core/__init__.py <<<<<
-
-
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/core/__init__.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.py <<<<<
-
-		----- START: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
-			# CodeUnify: Combine Multiple Code Files into One
-
-			## Introduction
-
-			**CodeUnify** is a Python library that helps developers combine multiple source code files from a directory into a single output file. This library can include files of any type (e.g., Python, JavaScript, Java, C, etc.) and provides the flexibility to specify which files should be included. The combined output will be organized with comments indicating the start and end of each file, preserving context for each file in the combined output.
-
-			This tool is useful for **AI-assisted development tools** that need access to multiple files and their content for understanding context, tracking errors, or facilitating debugging. By combining all relevant files into a single file with clear markers, AI tools can process all the code at once and provide better context-based suggestions and error resolutions.
-
-			## Features
-
-			- **Combine files of any type**: The tool can handle any source code files (e.g., `.py`, `.js`, `.java`, `.c`, `.txt`, etc.).
-			- **Customizable comment formatting**: Easily add custom comments at the start and end of each file for better context.
-			- **Command-line integration**: Combine files directly from the command line with flexible options for file type inclusion and comment formatting.
-			- **Error Context**: For AI tools, having all files in one place with clear markers makes it easier to analyze errors and provide solutions with full context of the files in the directory.
-			- **Improved AI Assistance**: By providing all the code in a single output file, AI systems can better understand relationships between files, making their suggestions and error tracking more accurate.
-
-			## Installation
-
-			To install **CodeUnify**, follow these steps:
-
-			1. **Clone the repository**:
-			    ```bash
-			    git clone https://github.com/takuphilchan/codeunify.git
-			    cd codeunify
-			    ```
-
-			2. **Install dependencies**:
-			    If you are using `pip`, you can install the necessary dependencies:
-			    ```bash
-			    pip install -r requirements.txt
-			    ```
-
-			3. **Ensure Python 3.x is installed**: This library works with Python 3.x versions. You can check your Python version using:
-			    ```bash
-			    python --version
-			    ```
-
-			## Usage
-
-			### 1. Combine Files with Default Settings
-
-			To combine all code files from a directory into a single output file using default settings, run the following command:
-
-			```bash
-			python combine.py /path/to/code/files output_combined_file.txt
-			```
-
-			This will combine all files in the specified directory (`/path/to/code/files`) and save the result in `output_combined_file.txt`. Each file will be surrounded by comments indicating its start and end.
-
-			### 2. Combine Files with Specific File Types
-
-			If you want to specify which types of files to combine (e.g., only `.py` and `.js` files), use the `--file_types` flag followed by the extensions:
-
-			```bash
-			python combine.py /path/to/code/files output_combined_file.txt --file_types .py .js
-			```
-
-			This command will only combine files with `.py` and `.js` extensions from the specified directory.
-
-			### 3. Customize Comment Format
-
-			You can also customize the comment format using the `--comment_format` flag. The format must be a dictionary in the form of a string, where `{filename}` will be replaced with the actual filename.
-
-			Example:
-
-			```bash
-			python combine.py /path/to/code/files output_combined_file.txt --comment_format "{'start': '// Begin {filename}', 'end': '// End {filename}'}"
-			```
-
-			This will use `// Begin {filename}` and `// End {filename}` as comments around each file.
-
-			### 4. Importing and Using the Function in Your Own Code
-
-			If you'd like to use this library programmatically in your Python scripts, you can import the `combine_files` function and call it directly:
-
-			```python
-			from codeunify.core.combine import combine_files
-
-			combine_files('/path/to/code/files', 'output_combined_file.txt', file_types=['.py', '.js'])
-			```
-
-			### 5. Testing and Ensuring Accuracy
-
-			You can run the provided test cases to verify the functionality of the library. The tests ensure that files are correctly combined, and the comment markers are correctly placed.
-
-			To run the tests, use:
-
-			```bash
-			python -m unittest discover tests
-			```
-
-			## Example
-
-			Let’s say you have the following files in a folder (`/projects/code/`):
-
-			- `app.py`:
-			  ```python
-			  def main():
-			      print("Hello, World!")
-			  ```
-
-			- `utils.js`:
-			  ```javascript
-			  function greet() {
-			      console.log("Hello from JS!");
-			  }
-			  ```
-
-			- `index.html`:
-			  ```html
-			  <html>
-			      <body>
-			          <h1>Welcome to my website</h1>
-			      </body>
-			  </html>
-			  ```
-
-			You can run the following command to combine all these files into one:
-
-			```bash
-			python combine.py /projects/code/ combined_output.txt
-			```
-
-			The resulting `combined_output.txt` will look something like this:
-
-			```txt
-			# >>>>> START: app.py <<<<<
-
-				 def main():
-				     print("Hello, World!")
-
-			# <<<<< END: app.py >>>>>
-
-			// >>>>> START: utils.js <<<<<
-
-				 function greet() {
-				     console.log("Hello from JS!");
-				 }
-
-			// <<<<< END: utils.js >>>>>
-
-			----- START: index.html -----
-
-				 <html>
-				     <body>
-				         <h1>Welcome to my website</h1>
-				     </body>
-				 </html>
-
-			----- END: index.html -----
-
-			```
-
-			## How It Aids AI Tools
-
-			Many AI tools and systems need context from multiple files when analyzing or debugging code. By combining all relevant files into one file with clear markers, **CodeUnify** makes it easier for AI systems to:
-
-			1. **Provide Accurate Error Analysis**: The AI tool has access to all files in a single context, allowing it to trace errors across multiple files and give better, more holistic suggestions.
-   
-			2. **Support Code Completion**: Having access to multiple related files lets the AI tool provide better code completion suggestions by knowing the content of all relevant files.
-
-			3. **Enhance Code Understanding**: AI tools that need to understand how various files interact with each other can process the entire set of files in one go, leading to more context-aware and intelligent recommendations.
-
-			4. **Facilitate Debugging**: When working with multiple files, it's easy to miss context or overlook interactions between files. Combining them into one allows AI systems to quickly spot issues that may otherwise be difficult to detect.
-
-			## Contributing
-
-			We welcome contributions! If you would like to improve this library, please fork the repository, make your changes, and submit a pull request.
-
-			## License
-
-			This library is licensed under the MIT License.
-
-			---
-
-		----- END: /mnt/d/programming/new_lib/codeunify/codeunify/README.md -----
-
-		----- START: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-			numpy
-
-		----- END: /mnt/d/programming/new_lib/codeunify/codeunify/requirements.txt -----
-
-		# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py <<<<<
-
-
-
-		# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/__init__.py >>>>>
-
-		# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/core/combine.py <<<<<
-
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example.py <<<<<
-
-		from codeunify.core.combine import combine_files
-
-		# Path to the examples directory and the desired output file name
-		input_dir = '/mnt/d/programming/new_lib/codeunify/codeunify'
-		output_file = '/mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.py'
-
-		# Combine the files in the examples directory
-		combine_files(input_dir, output_file)
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file1.py <<<<<
-
-		# This Python script processes a dataset and outputs basic statistics.
-
-		import numpy as np
-
-		# Dataset
-		data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-		# Calculate mean and standard deviation
-		mean = np.mean(data)
-		std_dev = np.std(data)
-
-		# Output results
-		print(f"Mean: {mean}")
-		print(f"Standard Deviation: {std_dev}")
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file1.py >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file2.js <<<<<
-
-		// This JavaScript script validates a user's input on a form before submission.
-
-		function validateForm(form) {
-		    let isValid = true;
-		    if (form.name.value === "") {
-		        alert("Name must be filled out");
-		        isValid = false;
-		    }
-		    if (form.email.value === "") {
-		        alert("Email must be filled out");
-		        isValid = false;
-		    }
-		    return isValid;
-		}
-
-		// Example usage of validation function
-		let form = {
-		    name: { value: "" },
-		    email: { value: "test@example.com" },
-		};
-		console.log(validateForm(form));  // Should return false due to empty name field
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file2.js >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file3.java <<<<<
-
-		// This Java program reads from and writes to a file.
-
-		import java.io.*;
-
-		public class FileReaderWriter {
-		    public static void main(String[] args) {
-		        String filePath = "output.txt";
-
-		        // Writing to a file
-		        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-		            writer.write("Hello, this is a file handling example in Java!");
-		            writer.newLine();
-		            writer.write("Writing multiple lines to the file.");
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while writing to the file.");
-		        }
-
-		        // Reading from a file
-		        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-		            String line;
-		            while ((line = reader.readLine()) != null) {
-		                System.out.println(line);
-		            }
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while reading the file.");
-		        }
-		    }
-		}
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file3.java >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file1.py <<<<<
-
-		# This Python script processes a dataset and outputs basic statistics.
-
-		import numpy as np
-
-		# Dataset
-		data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-		# Calculate mean and standard deviation
-		mean = np.mean(data)
-		std_dev = np.std(data)
-
-		# Output results
-		print(f"Mean: {mean}")
-		print(f"Standard Deviation: {std_dev}")
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file1.py >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file2.js <<<<<
-
-		// This JavaScript script validates a user's input on a form before submission.
-
-		function validateForm(form) {
-		    let isValid = true;
-		    if (form.name.value === "") {
-		        alert("Name must be filled out");
-		        isValid = false;
-		    }
-		    if (form.email.value === "") {
-		        alert("Email must be filled out");
-		        isValid = false;
-		    }
-		    return isValid;
-		}
-
-		// Example usage of validation function
-		let form = {
-		    name: { value: "" },
-		    email: { value: "test@example.com" },
-		};
-		console.log(validateForm(form));  // Should return false due to empty name field
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file2.js >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file3.java <<<<<
-
-		// This Java program reads from and writes to a file.
-
-		import java.io.*;
-
-		public class FileReaderWriter {
-		    public static void main(String[] args) {
-		        String filePath = "output.txt";
-
-		        // Writing to a file
-		        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-		            writer.write("Hello, this is a file handling example in Java!");
-		            writer.newLine();
-		            writer.write("Writing multiple lines to the file.");
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while writing to the file.");
-		        }
-
-		        // Reading from a file
-		        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-		            String line;
-		            while ((line = reader.readLine()) != null) {
-		                System.out.println(line);
-		            }
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while reading the file.");
-		        }
-		    }
-		}
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file3.java >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file1.py <<<<<
-
-		# This Python script processes a dataset and outputs basic statistics.
-
-		import numpy as np
-
-		# Dataset
-		data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-		# Calculate mean and standard deviation
-		mean = np.mean(data)
-		std_dev = np.std(data)
-
-		# Output results
-		print(f"Mean: {mean}")
-		print(f"Standard Deviation: {std_dev}")
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file1.py >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file2.js <<<<<
-
-		// This JavaScript script validates a user's input on a form before submission.
-
-		function validateForm(form) {
-		    let isValid = true;
-		    if (form.name.value === "") {
-		        alert("Name must be filled out");
-		        isValid = false;
-		    }
-		    if (form.email.value === "") {
-		        alert("Email must be filled out");
-		        isValid = false;
-		    }
-		    return isValid;
-		}
-
-		// Example usage of validation function
-		let form = {
-		    name: { value: "" },
-		    email: { value: "test@example.com" },
-		};
-		console.log(validateForm(form));  // Should return false due to empty name field
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file2.js >>>>>
-
-	// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file3.java <<<<<
-
-		// This Java program reads from and writes to a file.
-
-		import java.io.*;
-
-		public class FileReaderWriter {
-		    public static void main(String[] args) {
-		        String filePath = "output.txt";
-
-		        // Writing to a file
-		        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-		            writer.write("Hello, this is a file handling example in Java!");
-		            writer.newLine();
-		            writer.write("Writing multiple lines to the file.");
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while writing to the file.");
-		        }
-
-		        // Reading from a file
-		        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-		            String line;
-		            while ((line = reader.readLine()) != null) {
-		                System.out.println(line);
-		            }
-		        } catch (IOException e) {
-		            System.out.println("An error occurred while reading the file.");
-		        }
-		    }
-		}
-
-	// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file3.java >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/tests/test_combine.py <<<<<
-
-		import unittest
-		import os
-		from codeunify.core.combine import combine_files
-
-		class TestCombineFiles(unittest.TestCase):
-
-		    def setUp(self):
-		        """Setup test files and directories."""
-		        self.test_dir = "test_files"
-		        self.output_file = "combined_output.txt"
-        
-		        # Create a test directory and files
-		        if not os.path.exists(self.test_dir):
-		            os.makedirs(self.test_dir)
-        
-		        # Files with different extensions
-		        self.files = [
-		            ("test1.py", "print('Hello from test1')"),
-		            ("test2.js", "console.log('Hello from test2')"),
-		            ("test3.java", "System.out.println('Hello from test3');"),
-		            ("test4.txt", "Just a regular text file content."),
-		            ("test5.c", "printf('Hello from C');")
-		        ]
-        
-		        # Create test files
-		        for filename, content in self.files:
-		            with open(os.path.join(self.test_dir, filename), "w") as f:
-		                f.write(content)
-
-		    def test_combine_files(self):
-		        """Test combining files into one output."""
-		        combine_files(self.test_dir, self.output_file)
-        
-		        # Ensure output file is created
-		        self.assertTrue(os.path.exists(self.output_file))
-        
-		        # Read combined file content
-		        with open(self.output_file, 'r') as f:
-		            combined_content = f.read()
-
-		        # Check if the comments are present in the combined content
-		        for filename, _ in self.files:
-		            self.assertIn(f"# Start of {filename}", combined_content)
-		            self.assertIn(f"# End of {filename}", combined_content)
-
-		            # Check if file content is present in the combined file
-		            with open(os.path.join(self.test_dir, filename), 'r') as f:
-		                file_content = f.read()
-		                self.assertIn(file_content, combined_content)
-    
-		    def test_combine_with_specified_file_types(self):
-		        """Test combining files with specified file types."""
-		        combine_files(self.test_dir, self.output_file, file_types=['.py', '.js'])
-        
-		        # Ensure output file is created
-		        self.assertTrue(os.path.exists(self.output_file))
-        
-		        # Read combined file content
-		        with open(self.output_file, 'r') as f:
-		            combined_content = f.read()
-
-		        # Check if the comments are present for specific file types
-		        for filename, _ in self.files:
-		            if filename.endswith('.py') or filename.endswith('.js'):
-		                self.assertIn(f"# Start of {filename}", combined_content)
-		                self.assertIn(f"# End of {filename}", combined_content)
-
-		                # Check if file content is present in the combined file
-		                with open(os.path.join(self.test_dir, filename), 'r') as f:
-		                    file_content = f.read()
-		                    self.assertIn(file_content, combined_content)
-		            else:
-		                # Ensure files that do not match the specified file types are not included
-		                self.assertNotIn(f"# Start of {filename}", combined_content)
-		                self.assertNotIn(f"# End of {filename}", combined_content)
-    
-		    def tearDown(self):
-		        """Clean up test files and output."""
-		        for filename, _ in self.files:
-		            os.remove(os.path.join(self.test_dir, filename))
-		        os.rmdir(self.test_dir)
-		        if os.path.exists(self.output_file):
-		            os.remove(self.output_file)
-
-		if __name__ == "__main__":
-		    unittest.main()
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/tests/test_combine.py >>>>>
-
-	# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/tests/__init__.py <<<<<
-
-
-
-	# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/tests/__init__.py >>>>>
-
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.py >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example.py <<<<<
-
-	from codeunify.core.combine import combine_files
-
-	# Path to the examples directory and the desired output file name
-	input_dir = '/mnt/d/programming/new_lib/codeunify/codeunify'
-	output_file = '/mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.txt'
-
-	# Combine the files in the examples directory
-	combine_files(input_dir, output_file)
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example.py >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file1.py <<<<<
-
-	# This Python script processes a dataset and outputs basic statistics.
-
-	import numpy as np
-
-	# Dataset
-	data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-	# Calculate mean and standard deviation
-	mean = np.mean(data)
-	std_dev = np.std(data)
-
-	# Output results
-	print(f"Mean: {mean}")
-	print(f"Standard Deviation: {std_dev}")
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file1.py >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file2.js <<<<<
-
-	// This JavaScript script validates a user's input on a form before submission.
-
-	function validateForm(form) {
-	    let isValid = true;
-	    if (form.name.value === "") {
-	        alert("Name must be filled out");
-	        isValid = false;
-	    }
-	    if (form.email.value === "") {
-	        alert("Email must be filled out");
-	        isValid = false;
-	    }
-	    return isValid;
-	}
-
-	// Example usage of validation function
-	let form = {
-	    name: { value: "" },
-	    email: { value: "test@example.com" },
-	};
-	console.log(validateForm(form));  // Should return false due to empty name field
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file2.js >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file3.java <<<<<
-
-	// This Java program reads from and writes to a file.
-
-	import java.io.*;
-
-	public class FileReaderWriter {
-	    public static void main(String[] args) {
-	        String filePath = "output.txt";
-
-	        // Writing to a file
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-	            writer.write("Hello, this is a file handling example in Java!");
-	            writer.newLine();
-	            writer.write("Writing multiple lines to the file.");
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while writing to the file.");
-	        }
-
-	        // Reading from a file
-	        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                System.out.println(line);
-	            }
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while reading the file.");
-	        }
-	    }
-	}
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/file3.java >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file1.py <<<<<
-
-	# This Python script processes a dataset and outputs basic statistics.
-
-	import numpy as np
-
-	# Dataset
-	data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-	# Calculate mean and standard deviation
-	mean = np.mean(data)
-	std_dev = np.std(data)
-
-	# Output results
-	print(f"Mean: {mean}")
-	print(f"Standard Deviation: {std_dev}")
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file1.py >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file2.js <<<<<
-
-	// This JavaScript script validates a user's input on a form before submission.
-
-	function validateForm(form) {
-	    let isValid = true;
-	    if (form.name.value === "") {
-	        alert("Name must be filled out");
-	        isValid = false;
-	    }
-	    if (form.email.value === "") {
-	        alert("Email must be filled out");
-	        isValid = false;
-	    }
-	    return isValid;
-	}
-
-	// Example usage of validation function
-	let form = {
-	    name: { value: "" },
-	    email: { value: "test@example.com" },
-	};
-	console.log(validateForm(form));  // Should return false due to empty name field
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file2.js >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file3.java <<<<<
-
-	// This Java program reads from and writes to a file.
-
-	import java.io.*;
-
-	public class FileReaderWriter {
-	    public static void main(String[] args) {
-	        String filePath = "output.txt";
-
-	        // Writing to a file
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-	            writer.write("Hello, this is a file handling example in Java!");
-	            writer.newLine();
-	            writer.write("Writing multiple lines to the file.");
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while writing to the file.");
-	        }
-
-	        // Reading from a file
-	        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                System.out.println(line);
-	            }
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while reading the file.");
-	        }
-	    }
-	}
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module/file3.java >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file1.py <<<<<
-
-	# This Python script processes a dataset and outputs basic statistics.
-
-	import numpy as np
-
-	# Dataset
-	data = [12, 15, 17, 19, 24, 29, 33, 35, 39]
-
-	# Calculate mean and standard deviation
-	mean = np.mean(data)
-	std_dev = np.std(data)
-
-	# Output results
-	print(f"Mean: {mean}")
-	print(f"Standard Deviation: {std_dev}")
-
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file1.py >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file2.js <<<<<
-
-	// This JavaScript script validates a user's input on a form before submission.
-
-	function validateForm(form) {
-	    let isValid = true;
-	    if (form.name.value === "") {
-	        alert("Name must be filled out");
-	        isValid = false;
-	    }
-	    if (form.email.value === "") {
-	        alert("Email must be filled out");
-	        isValid = false;
-	    }
-	    return isValid;
-	}
-
-	// Example usage of validation function
-	let form = {
-	    name: { value: "" },
-	    email: { value: "test@example.com" },
-	};
-	console.log(validateForm(form));  // Should return false due to empty name field
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file2.js >>>>>
-
-// >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file3.java <<<<<
-
-	// This Java program reads from and writes to a file.
-
-	import java.io.*;
-
-	public class FileReaderWriter {
-	    public static void main(String[] args) {
-	        String filePath = "output.txt";
-
-	        // Writing to a file
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-	            writer.write("Hello, this is a file handling example in Java!");
-	            writer.newLine();
-	            writer.write("Writing multiple lines to the file.");
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while writing to the file.");
-	        }
-
-	        // Reading from a file
-	        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                System.out.println(line);
-	            }
-	        } catch (IOException e) {
-	            System.out.println("An error occurred while reading the file.");
-	        }
-	    }
-	}
-
-// <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/examples/example_files/module2/file3.java >>>>>
-
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/tests/test_combine.py <<<<<
-
-	import unittest
-	import os
-	from codeunify.core.combine import combine_files
-
-	class TestCombineFiles(unittest.TestCase):
-
-	    def setUp(self):
-	        """Setup test files and directories."""
-	        self.test_dir = "test_files"
-	        self.output_file = "combined_output.txt"
-        
-	        # Create a test directory and files
-	        if not os.path.exists(self.test_dir):
-	            os.makedirs(self.test_dir)
-        
-	        # Files with different extensions
-	        self.files = [
-	            ("test1.py", "print('Hello from test1')"),
-	            ("test2.js", "console.log('Hello from test2')"),
-	            ("test3.java", "System.out.println('Hello from test3');"),
-	            ("test4.txt", "Just a regular text file content."),
-	            ("test5.c", "printf('Hello from C');")
-	        ]
-        
-	        # Create test files
-	        for filename, content in self.files:
-	            with open(os.path.join(self.test_dir, filename), "w") as f:
-	                f.write(content)
-
-	    def test_combine_files(self):
-	        """Test combining files into one output."""
-	        combine_files(self.test_dir, self.output_file)
-        
-	        # Ensure output file is created
-	        self.assertTrue(os.path.exists(self.output_file))
-        
-	        # Read combined file content
-	        with open(self.output_file, 'r') as f:
-	            combined_content = f.read()
-
-	        # Check if the comments are present in the combined content
-	        for filename, _ in self.files:
-	            self.assertIn(f"# Start of {filename}", combined_content)
-	            self.assertIn(f"# End of {filename}", combined_content)
-
-	            # Check if file content is present in the combined file
-	            with open(os.path.join(self.test_dir, filename), 'r') as f:
-	                file_content = f.read()
-	                self.assertIn(file_content, combined_content)
-    
-	    def test_combine_with_specified_file_types(self):
-	        """Test combining files with specified file types."""
-	        combine_files(self.test_dir, self.output_file, file_types=['.py', '.js'])
-        
-	        # Ensure output file is created
-	        self.assertTrue(os.path.exists(self.output_file))
-        
-	        # Read combined file content
-	        with open(self.output_file, 'r') as f:
-	            combined_content = f.read()
-
-	        # Check if the comments are present for specific file types
-	        for filename, _ in self.files:
-	            if filename.endswith('.py') or filename.endswith('.js'):
-	                self.assertIn(f"# Start of {filename}", combined_content)
-	                self.assertIn(f"# End of {filename}", combined_content)
-
-	                # Check if file content is present in the combined file
-	                with open(os.path.join(self.test_dir, filename), 'r') as f:
-	                    file_content = f.read()
-	                    self.assertIn(file_content, combined_content)
+# >>>>> START: /mnt/d/NEW_GUI/emotion_labels.py <<<<<
+
+	def get_emotion_labels():
+	    return ["Neutral", "Happiness", "Surprise", "Sadness", "Anger", "Disgust", "Fear"]
+
+# <<<<< END: /mnt/d/NEW_GUI/emotion_labels.py >>>>>
+
+# >>>>> START: /mnt/d/NEW_GUI/main.py <<<<<
+
+	import sys
+	import torch
+	from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox
+	from PyQt5.QtCore import QTimer
+	from ui_setup import UIComponents, LoginDialog
+	from video_processing import VideoProcessing
+	from model_handling import ModelHandling
+
+	class MicroExpressionApp(UIComponents):
+	    def __init__(self):
+	        super().__init__()
+	        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+	        self.model_handler = None
+	        self.video_processor = VideoProcessing(self.device)
+	        self.timer = QTimer()
+	        self.timer.timeout.connect(self.update_frame)
+	        self.login_dialog = LoginDialog()
+	        self.login_dialog.exec_()
+	        self.start_stop_button.clicked.connect(self.toggle_video)
+	        self.load_model_button.clicked.connect(self.load_model)
+
+	    def load_model(self):
+	        model_path, _ = QFileDialog.getOpenFileName(self, 'Load Model', '', 'Model Files (*.pt *.pth)')
+	        if model_path:
+	            self.model_handler = ModelHandling(model_path, self.device)
+	            QMessageBox.information(self, 'Success', 'Model Loaded Successfully!')
+
+	    def toggle_video(self):
+	        if self.timer.isActive():
+	            self.timer.stop()
+	            self.start_stop_button.setText('Start')
+	        else:
+	            self.capture = cv2.VideoCapture(0)
+	            self.timer.start(30)
+	            self.start_stop_button.setText('Stop')
+
+	    def update_frame(self):
+	        ret, frame = self.capture.read()
+	        if ret:
+	            self.video_processor.process_frame(frame, self.model_handler.model, self.video_frame, self.trend_ax, self.pie_ax,
+	                                               self.bar_ax, self.trend_canvas, self.pie_canvas, self.bar_canvas)
+
+	if __name__ == '__main__':
+	    app = QApplication(sys.argv)
+	    window = MicroExpressionApp()
+	    window.show()
+	    sys.exit(app.exec_())
+
+# <<<<< END: /mnt/d/NEW_GUI/main.py >>>>>
+
+<!-- >>>>> START: /mnt/d/NEW_GUI/micro_expression_app.ui <<<<< -->
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<ui version="4.0">
+	 <class>MicroExpressionApp</class>
+	 <widget class="QWidget" name="MicroExpressionApp">
+	  <property name="geometry">
+	   <rect>
+	    <x>0</x>
+	    <y>0</y>
+	    <width>1400</width>
+	    <height>700</height>
+	   </rect>
+	  </property>
+	  <property name="windowTitle">
+	   <string>Micro-Expression Detection</string>
+	  </property>
+	  <layout class="QHBoxLayout" name="horizontalLayout">
+	   <item>
+	    <layout class="QVBoxLayout" name="verticalLayout">
+	     <!-- Video Frame -->
+	     <item>
+	      <widget class="QLabel" name="video_frame">
+	       <property name="sizePolicy">
+	        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+	         <horstretch>1</horstretch>
+	         <verstretch>1</verstretch>
+	        </sizepolicy>
+	       </property>
+	       <property name="minimumSize">
+	        <size>
+	         <width>640</width>
+	         <height>480</height>
+	        </size>
+	       </property>
+	      </widget>
+	     </item>
+	     <!-- Buttons Layout -->
+	     <item>
+	      <layout class="QHBoxLayout" name="horizontalLayout_2">
+	       <item>
+	        <widget class="QPushButton" name="start_stop_button">
+	         <property name="text">
+	          <string>Start Webcam</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QPushButton" name="load_model_button">
+	         <property name="text">
+	          <string>Load Model</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QPushButton" name="load_video_button">
+	         <property name="text">
+	          <string>Load Video</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QPushButton" name="play_pause_button">
+	         <property name="text">
+	          <string>Play</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QPushButton" name="stop_button">
+	         <property name="text">
+	          <string>Stop</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QPushButton" name="exit_button">
+	         <property name="text">
+	          <string>Exit</string>
+	         </property>
+	        </widget>
+	       </item>
+	      </layout>
+	     </item>
+	     <!-- Labels -->
+	     <item>
+	      <widget class="QLabel" name="model_name_label">
+	       <property name="text">
+	        <string>Loaded Model:</string>
+	       </property>
+	      </widget>
+	     </item>
+	     <item>
+	      <widget class="QLabel" name="loaded_model_label">
+	       <property name="text">
+	        <string>-</string>
+	       </property>
+	      </widget>
+	     </item>
+	     <!-- Slider -->
+	     <item>
+	      <widget class="QSlider" name="video_slider">
+	       <property name="orientation">
+	        <enum>Qt::Horizontal</enum>
+	       </property>
+	       <property name="tickPosition">
+	        <enum>QSlider::TicksBelow</enum>
+	       </property>
+	      </widget>
+	     </item>
+	     <!-- Frame Rate Label -->
+	     <item>
+	      <widget class="QLabel" name="frame_rate_label">
+	       <property name="text">
+	        <string>Frame Index:</string>
+	       </property>
+	      </widget>
+	     </item>
+	     <item>
+	      <widget class="QLabel" name="frame_rate_value_label">
+	       <property name="text">
+	        <string>0</string>
+	       </property>
+	      </widget>
+	     </item>
+	     <!-- Configuration Layout -->
+	     <item>
+	      <layout class="QVBoxLayout" name="config_layout">
+	       <item>
+	        <widget class="QLabel" name="num_layers_label">
+	         <property name="text">
+	          <string>Num Layers:</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QSpinBox" name="num_layers_spinbox"/>
+	       </item>
+	       <item>
+	        <widget class="QLabel" name="use_attention_label">
+	         <property name="text">
+	          <string>Use Attention:</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QCheckBox" name="use_attention_checkbox"/>
+	       </item>
+	       <item>
+	        <widget class="QLabel" name="num_classes_label">
+	         <property name="text">
+	          <string>Num Classes:</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <widget class="QSpinBox" name="num_classes_spinbox"/>
+	       </item>
+	       <item>
+	        <widget class="QLabel" name="dropout_label">
+	         <property name="text">
+	          <string>Dropout:</string>
+	         </property>
+	        </widget>
+	       </item>
+	       <item>
+	        <layout class="QHBoxLayout">
+	         <item>
+	          <widget class="QSlider" name="dropout_slider">
+	           <property name="orientation">
+	            <enum>Qt::Horizontal</enum>
+	           </property>
+	           <property name="tickPosition">
+	            <enum>QSlider::TicksBelow</enum>
+	           </property>
+	          </widget>
+	         </item>
+	         <item>
+	          <widget class="QLabel" name="dropout_value_label">
+	           <property name="text">
+	            <string>0.0</string>
+	           </property>
+	          </widget>
+	         </item>
+	        </layout>
+	       </item>
+	      </layout>
+	     </item>
+	    </layout>
+	   </item>
+	   <!-- Graph Layout -->
+	   <item>
+	    <layout class="QVBoxLayout" name="graph_layout" margin="0" spacing="0">
+	     <item>
+	      <widget class="QWidget" name="trend_canvas">
+	       <property name="sizePolicy">
+	        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+	         <horstretch>0</horstretch>
+	         <verstretch>0</verstretch>
+	        </sizepolicy>
+	       </property>
+	      </widget>
+	     </item>
+	     <item>
+	      <widget class="QWidget" name="pie_canvas">
+	       <property name="sizePolicy">
+	        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+	         <horstretch>0</horstretch>
+	         <verstretch>0</verstretch>
+	        </sizepolicy>
+	       </property>
+	      </widget>
+	     </item>
+	     <item>
+	      <widget class="QWidget" name="bar_canvas">
+	       <property name="sizePolicy">
+	        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+	         <horstretch>0</horstretch>
+	         <verstretch>0</verstretch>
+	        </sizepolicy>
+	       </property>
+	      </widget>
+	     </item>
+	    </layout>
+	   </item>
+	  </layout>
+	 </widget>
+	 <resources/>
+	 <connections/>
+	</ui>
+
+<!-- <<<<< END: /mnt/d/NEW_GUI/micro_expression_app.ui >>>>> -->
+
+# >>>>> START: /mnt/d/NEW_GUI/model_handling.py <<<<<
+
+	import torch
+	import torch.nn.functional as F
+	from torchvision import transforms
+	from models import MicroExpressionClassificationModel, R3D_FeatureExtractor, TransformerEncoder
+
+	class ModelHandling:
+	    def __init__(self, model_path, device):
+	        self.device = device
+	        self.model = None
+	        self.load_model(model_path)
+
+	    def load_model(self, model_path):
+	        try:
+	            checkpoint = torch.load(model_path, map_location=self.device)
+	            self.feature_extractor = R3D_FeatureExtractor(d_model=512, pretrained=True, dropout_prob=0.2)
+	            self.transformer_encoder = TransformerEncoder(d_model=512, nhead=8, num_layers=3, dropout=0.2)
+	            self.model = MicroExpressionClassificationModel(self.feature_extractor,
+	                                                            self.transformer_encoder,
+	                                                            num_classes=3,
+	                                                            use_attention=True)
+	            if 'state_dict' in checkpoint:
+	                state_dict = checkpoint['state_dict']
 	            else:
-	                # Ensure files that do not match the specified file types are not included
-	                self.assertNotIn(f"# Start of {filename}", combined_content)
-	                self.assertNotIn(f"# End of {filename}", combined_content)
-    
-	    def tearDown(self):
-	        """Clean up test files and output."""
-	        for filename, _ in self.files:
-	            os.remove(os.path.join(self.test_dir, filename))
-	        os.rmdir(self.test_dir)
-	        if os.path.exists(self.output_file):
-	            os.remove(self.output_file)
+	                state_dict = checkpoint
 
-	if __name__ == "__main__":
-	    unittest.main()
+	            self.model.load_state_dict(state_dict)
+	            self.model.eval()
+	        except Exception as e:
+	            print(f"Error loading model: {e}")
 
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/tests/test_combine.py >>>>>
+	    def predict(self, frame):
+	        # Preprocess the frame if necessary (e.g., resize, normalize)
+	        input_tensor = transforms.ToTensor()(frame).unsqueeze(0).to(self.device)
+	        with torch.no_grad():
+	            output = F.softmax(self.model(input_tensor), dim=1).squeeze()
+	        return output
 
-# >>>>> START: /mnt/d/programming/new_lib/codeunify/codeunify/tests/__init__.py <<<<<
+# <<<<< END: /mnt/d/NEW_GUI/model_handling.py >>>>>
 
+/* >>>>> START: /mnt/d/NEW_GUI/styles.qss <<<<< */
 
+	/* styles.qss */
 
-# <<<<< END: /mnt/d/programming/new_lib/codeunify/codeunify/tests/__init__.py >>>>>
+	/* General QWidget styling */
+	QWidget {
+	    background-color: #f0f0f0; /* Light gray background */
+	    color: #333; /* Dark gray text color */
+	    font-size: 14px; /* Default font size */
+	}
+
+	/* QPushButton styling */
+	QPushButton {
+	    padding: 10px 20px; /* Padding for buttons */
+	    background-color: #4682B4; /* Steel blue background */
+	    color: white;
+	    border: none;
+	    border-radius: 5px;
+	}
+
+	QPushButton:hover {
+	    background-color: #2a4e78; /* Darker steel blue on hover */
+	}
+
+	QPushButton:pressed {
+	    background-color: #1c364e; /* Even darker steel blue when pressed */
+	}
+
+	/* QLabel styling */
+	QLabel {
+	    font-size: 16px; /* Larger font for labels */
+	}
+
+	/* QSlider styling */
+	QSlider::handle {
+	    background: #4682B4; /* Steel blue slider handle */
+	    border: 2px solid #4682B4;
+	    width: 18px;
+	    margin: -8px 0;
+	    border-radius: 9px;
+	}
+
+	QSlider::add-page, QSlider::sub-page {
+	    background: #ddd; /* Light gray slider track */
+	    border-radius: 4px;
+	}
+
+	QSlider::groove {
+	    border: 1px solid #999; /* Gray border around slider */
+	    height: 8px; /* Thickness of slider */
+	}
+
+	QSlider::add-page {
+	    background: #ddd; /* Light gray track before handle */
+	}
+
+	QSlider::sub-page {
+	    background: #4682B4; /* Steel blue track after handle */
+	}
+
+	/* QSpinBox styling */
+	QSpinBox {
+	    padding: 5px;
+	    font-size: 14px;
+	    width: 60px;
+	}
+
+	/* QCheckBox styling */
+	QCheckBox {
+	    font-size: 14px;
+	}
+
+/* <<<<< END: /mnt/d/NEW_GUI/styles.qss >>>>> */
+
+# >>>>> START: /mnt/d/NEW_GUI/ui_setup.py <<<<<
+
+	from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, \
+	    QSlider, QMessageBox, QSizePolicy, QLineEdit, QDialog, QFormLayout, QSpinBox, QCheckBox, QProgressDialog
+	from PyQt5.QtGui import QImage, QPixmap, QIcon, QFont, QColor, QPainter, QMovie
+	from PyQt5.QtCore import QTimer, Qt, QPropertyAnimation
+	from PyQt5.uic import loadUi
+	from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+	from matplotlib.figure import Figure
+
+	class HoverButton(QPushButton):
+	    def __init__(self, text, parent=None):
+	        super().__init__(text, parent)
+	        self.setMouseTracking(True)
+
+	    def enterEvent(self, event):
+	        self.animate_hover(True)
+
+	    def leaveEvent(self, event):
+	        self.animate_hover(False)
+
+	    def animate_hover(self, hover):
+	        animation = QPropertyAnimation(self, b'background-color')
+	        animation.setDuration(200)
+	        if hover:
+	            animation.setEndValue(QColor('#45a049'))  # Darker green on hover
+	        else:
+	            animation.setEndValue(QColor('#4CAF50'))  # Original green
+	        animation.start()
+
+	class LoginDialog(QDialog):
+	    def __init__(self):
+	        super().__init__()
+	        self.setWindowTitle('Login')
+	        self.username_input = QLineEdit()
+	        self.password_input = QLineEdit()
+	        self.password_input.setEchoMode(QLineEdit.Password)
+	        self.login_button = QPushButton('Login')
+	        self.login_button.clicked.connect(self.check_credentials)
+
+	        layout = QVBoxLayout()
+	        layout.addWidget(QLabel('Username:'))
+	        layout.addWidget(self.username_input)
+	        layout.addWidget(QLabel('Password:'))
+	        layout.addWidget(self.password_input)
+	        layout.addWidget(self.login_button)
+	        self.setLayout(layout)
+
+	    def check_credentials(self):
+	        username = self.username_input.text()
+	        password = self.password_input.text()
+	        if username == '' and password == '':
+	            QMessageBox.information(self, 'Success', 'Login Successful!')
+	            self.accept()
+	        else:
+	            QMessageBox.warning(self, 'Error', 'Invalid credentials')
+
+	class UIComponents(QWidget):
+	    def __init__(self):
+	        super().__init__()
+	        self.setup_ui()
+
+	    def setup_ui(self):
+	        loadUi('micro_expression_app.ui', self)
+	        self.setWindowTitle('Micro-Expression Detection')
+	        self.video_frame.setMinimumSize(900, 480)
+
+	        font = QFont()
+	        font.setPointSize(14)
+
+	        for label in self.findChildren(QLabel):
+	            label.setFont(font)
+	            label.setAlignment(Qt.AlignCenter)
+
+	        for button in [self.start_stop_button, self.load_model_button, self.load_video_button, self.exit_button,
+	                       self.play_pause_button, self.stop_button]:
+	            button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+	        self.trend_canvas = FigureCanvas(Figure(figsize=(5, 3)))
+	        self.graph_layout.addWidget(self.trend_canvas)
+	        self.trend_ax = self.trend_canvas.figure.subplots()
+	        self.trend_ax.set_title('Emotion Trend Over Time')
+	        self.trend_canvas.figure.subplots_adjust(bottom=0.20)
+	        self.trend_canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+	        self.trend_canvas.setMinimumSize(400, 250)
+
+	        self.bar_canvas = FigureCanvas(Figure(figsize=(5, 3)))
+	        self.graph_layout.addWidget(self.bar_canvas)
+	        self.bar_ax = self.bar_canvas.figure.subplots()
+	        self.bar_ax.set_title('Emotion Analysis Bar Plot')
+	        self.bar_canvas.figure.subplots_adjust(bottom=0.20)
+	        self.bar_canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+	        self.bar_canvas.setMinimumSize(400, 300)
+
+	        self.pie_canvas = FigureCanvas(Figure(figsize=(5, 3)))
+	        self.graph_layout.addWidget(self.pie_canvas)
+	        self.pie_ax = self.pie_canvas.figure.subplots()
+	        self.pie_ax.set_title('Emotion Distribution')
+	        self.pie_canvas.figure.subplots_adjust(bottom=0.15)
+	        self.pie_canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+	        self.pie_canvas.setMinimumSize(400, 300)
+
+	        self.placeholder_label = QLabel(self)
+	        self.placeholder_label.setMinimumSize(900, 480)
+	        self.set_placeholder()
+
+	        self.main_layout = QHBoxLayout(self)
+	        self.main_layout.addLayout(self.verticalLayout)
+	        self.main_layout.addLayout(self.graph_layout)
+	        self.setLayout(self.main_layout)
+
+	        self.num_layers_spinbox.setMinimum(1)
+	        self.num_layers_spinbox.setMaximum(12)
+	        self.num_layers_spinbox.setValue(3)
+
+	        self.use_attention_checkbox.setChecked(1)
+	        self.num_classes_spinbox.setMinimum(1)
+	        self.num_classes_spinbox.setMaximum(100)
+	        self.num_classes_spinbox.setValue(3)
+
+	        self.dropout_slider.setOrientation(Qt.Horizontal)
+	        self.dropout_slider.setRange(0, 100)
+	        self.dropout_slider.setValue(20)
+	        self.update_dropout_label(20)
+
+	    def update_dropout_label(self, value):
+	        self.dropout_value_label.setText(f"{value / 10:.1f}")
+
+	    def set_placeholder(self):
+	        movie = QMovie('placeholder2.gif')
+	        self.placeholder_label.setMovie(movie)
+	        movie.start()
+	        self.placeholder_label.setAlignment(Qt.AlignCenter)
+
+# <<<<< END: /mnt/d/NEW_GUI/ui_setup.py >>>>>
+
+# >>>>> START: /mnt/d/NEW_GUI/video_processing.py <<<<<
+
+	import cv2
+	import numpy as np
+	from torchvision import transforms
+	import mediapipe as mp
+	from PyQt5.QtGui import QImage, QPixmap
+	import torch
+
+	from emotion_labels import get_emotion_labels
+
+	class VideoProcessing:
+	    def __init__(self, device):
+	        self.device = device
+	        self.mp_face_mesh = mp.solutions.face_mesh
+	        self.face_mesh = self.mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, refine_landmarks=True,
+	                                                    min_detection_confidence=0.8, min_tracking_confidence=0.8)
+
+	    def process_frame(self, frame, emotion_classifier, video_frame, trend_ax, pie_ax, bar_ax, trend_canvas, pie_canvas, bar_canvas):
+	        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+	        results = self.face_mesh.process(rgb_frame)
+
+	        if results.multi_face_landmarks:
+	            for face_landmarks in results.multi_face_landmarks:
+	                head_outline_indices = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377,
+	                                        152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109]
+
+	                h, w, _ = frame.shape
+	                points = [(int(face_landmarks.landmark[idx].x * w), int(face_landmarks.landmark[idx].y * h)) for idx in head_outline_indices]
+
+	                mask = np.zeros((h, w), dtype=np.uint8)
+	                cv2.fillPoly(mask, [np.array(points, dtype=np.int32)], 255)
+	                mask_inv = cv2.bitwise_not(mask)
+
+	                white_background = np.full_like(frame, 255)
+	                frame_white_background = cv2.bitwise_and(white_background, white_background, mask=mask_inv)
+	                head_region = cv2.bitwise_and(frame, frame, mask=mask)
+	                head_region_with_white_background = cv2.add(head_region, frame_white_background)
+
+	                x, y, w, h = cv2.boundingRect(np.array(points, dtype=np.int32))
+	                head_crop = head_region_with_white_background[y:y+h, x:x+w]
+	                head_crop = cv2.resize(head_crop, (170, 170))
+
+	                head_tensor = transforms.ToTensor()(head_crop).unsqueeze(0).to(self.device)
+
+	                with torch.no_grad():
+	                    probabilities = torch.nn.functional.softmax(emotion_classifier(head_tensor), dim=1).squeeze()
+	                    emotion = torch.argmax(probabilities).item()
+
+	                emotion_text = self.get_emotion_label(emotion)
+	                cv2.putText(rgb_frame, emotion_text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
+	                cv2.rectangle(rgb_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+	                self.update_trend_graph([emotion], trend_ax, trend_canvas)
+	                self.update_pie_chart(probabilities.cpu().numpy(), pie_ax, pie_canvas)
+	                self.update_bar_chart(probabilities.cpu().numpy(), bar_ax, bar_canvas)
+
+	        rgb_frame = cv2.cvtColor(rgb_frame, cv2.COLOR_RGB2BGR)
+	        image = QImage(rgb_frame, rgb_frame.shape[1], rgb_frame.shape[0], rgb_frame.strides[0], QImage.Format_RGB888)
+	        video_frame.setPixmap(QPixmap.fromImage(image))
+
+	    @staticmethod
+	    def get_emotion_label(emotion):
+	        emotions = get_emotion_labels()
+	        return emotions[emotion]
+
+	    def update_trend_graph(self, emotion, trend_ax, trend_canvas):
+	        trend_ax.plot(range(len(emotion)), emotion, label='Emotion')
+	        trend_canvas.draw()
+
+	    def update_pie_chart(self, probabilities, pie_ax, pie_canvas):
+	        emotions = get_emotion_labels()
+	        pie_ax.clear()
+	        pie_ax.pie(probabilities, labels=emotions, autopct='%1.1f%%', startangle=140)
+	        pie_canvas.draw()
+
+	    def update_bar_chart(self, probabilities, bar_ax, bar_canvas):
+	        emotions = get_emotion_labels()
+	        bar_ax.clear()
+	        bar_ax.bar(emotions, probabilities)
+	        bar_canvas.draw()
+
+# <<<<< END: /mnt/d/NEW_GUI/video_processing.py >>>>>
 

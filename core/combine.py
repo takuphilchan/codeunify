@@ -8,17 +8,44 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # List of metadata directories to exclude
-EXCLUDED_DIRS = {'.git', '__pycache__', '.idea', '.vscode'}
+EXCLUDED_DIRS = {
+    '.git', '.svn', '.hg', '.bzr', '__pycache__', '.mypy_cache', '.pytest_cache', '.tox', '.venv', 'env', 'venv',  
+    '.idea', '.vscode', '.vs', '.classpath', '.project', '.settings', 'node_modules', 'bower_components',  
+    '.gradle', '.mvn', 'target', 'out', 'bin', 'target', 'build', 'cmake-build-debug', 'cmake-build-release',  
+    'pkg', '.docker', '.circleci', '.github', '.gitlab', 'dist', 'output', 'logs', 'cache', '__MACOSX'
+}
 
-# Set of common programming/text file extensions to include, even if MIME detection fails
-COMMON_TEXT_EXTENSIONS = {'.py', '.js', '.cpp', '.c', '.java', '.cu', '.h', '.hpp', '.cs', '.rb', '.php', '.go', '.rs', '.ts'}
+# Set of common programming/text file extensions to include
+COMMON_TEXT_EXTENSIONS = {
+    '.py', '.js', '.ts', '.c', '.cpp', '.h', '.hpp', '.java', '.cs', '.go', '.rs', '.rb', '.php', '.lua', '.m', '.swift', 
+    '.kt', '.dart', '.r', '.pl', '.sh', '.ps1', '.bat', '.ex', '.exs', '.clj', '.cljs', '.erl', '.hrl', '.ml', '.mli', 
+    '.fs', '.fsi', '.fsx', '.fsscript', '.v', '.vh', '.sv', '.svi', '.sc', '.scala', '.groovy', '.jl', '.adb', '.ads', 
+    '.html', '.xml', '.ui', '.xsl', '.xsd', '.css', '.qss','.scss', '.sass', '.json', '.yaml', '.yml', '.toml', '.ini', '.cfg', '.csv', 
+    '.sql', '.db', '.dbt', '.makefile', '.mk', '.gradle', '.dockerfile', '.bash', '.zsh', '.fish', '.ksh', '.vhd', '.vhdl', 
+    '.sdc', '.ipynb', '.mat', '.m', '.nb', '.wl', '.cmake', '.ninja', '.build', '.bazel', '.bzl', '.buck', '.ebuild', 
+    '.lisp', '.cl', '.el', '.scm', '.rkt', '.tsx', '.jsx', '.astro', '.svelte'
+}
 
 # Comment formats based on file extension
 COMMENT_STYLES = {
-    "hash": {"ext": {'.py', '.sh', '.rb', '.pl'}, "start": "# >>>>> START: {filepath} <<<<<", "end": "# <<<<< END: {filepath} >>>>>"},
-    "slash": {"ext": {'.js', '.ts', '.c', '.cpp', '.java', '.cs', '.go', '.cu'}, "start": "// >>>>> START: {filepath} <<<<<", "end": "// <<<<< END: {filepath} >>>>>"},
-    "html": {"ext": {'.html', '.xml'}, "start": "<!-- >>>>> START: {filepath} <<<<< -->", "end": "<!-- <<<<< END: {filepath} >>>>> -->"},
-    "dash": {"ext": {'.txt', '.md'}, "start": "----- START: {filepath} -----", "end": "----- END: {filepath} -----"},
+    "hash": {"ext": {'.py', '.sh', '.rb', '.pl', '.r', '.ps1', '.bash', '.zsh', '.ksh', '.fish'},
+              "start": "# >>>>> START: {filepath} <<<<<", "end": "# <<<<< END: {filepath} >>>>>"},
+    "slash": {"ext": {'.js', '.ts', '.c', '.cpp', '.java', '.cs', '.go', '.cu', '.rs', '.swift', '.kt', '.dart', '.scala'},
+               "start": "// >>>>> START: {filepath} <<<<<", "end": "// <<<<< END: {filepath} >>>>>"},
+    "css": {"ext": {'.css','.qss','.scss', '.sass'},
+             "start": "/* >>>>> START: {filepath} <<<<< */", "end": "/* <<<<< END: {filepath} >>>>> */"},
+    "html": {"ext": {'.html', '.xml', '.ui', '.xsl', '.xsd', '.jsx', '.tsx'},
+              "start": "<!-- >>>>> START: {filepath} <<<<< -->", "end": "<!-- <<<<< END: {filepath} >>>>> -->"},
+    "dash": {"ext": {'.txt', '.md', '.rst'},
+              "start": "----- START: {filepath} -----", "end": "----- END: {filepath} -----"},
+    "semicolon": {"ext": {'.lisp', '.clj', '.cljs', '.scm', '.rkt'},
+                   "start": ";; >>>>> START: {filepath} <<<<<", "end": ";; <<<<< END: {filepath} >>>>>"},
+    "percent": {"ext": {'.tex', '.sty', '.cls'},
+                 "start": "% >>>>> START: {filepath} <<<<<", "end": "% <<<<< END: {filepath} >>>>>"},
+    "sql": {"ext": {'.sql'},
+             "start": "-- >>>>> START: {filepath} <<<<<", "end": "-- <<<<< END: {filepath} >>>>>"},
+    "verilog": {"ext": {'.v', '.vh', '.sv', '.svi', '.vhd', '.vhdl'},
+                 "start": "-- >>>>> START: {filepath} <<<<<", "end": "-- <<<<< END: {filepath} >>>>>"},
 }
 
 def get_comment_format(file_path):
@@ -31,7 +58,6 @@ def get_comment_format(file_path):
         if ext in style["ext"]:
             return {"start": style["start"].format(filepath=file_path), "end": style["end"].format(filepath=file_path)}
     
-    # Default fallback (hash-style comments)
     return {"start": "# >>>>> START: {filepath} <<<<<".format(filepath=file_path), "end": "# <<<<< END: {filepath} >>>>>".format(filepath=file_path)}
 
 def combine_files(input_dir, output_file, file_types=None, block_indent="\t"):

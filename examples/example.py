@@ -1,7 +1,7 @@
 from codeunify.core.combine import combine_files
 
 # Path to the examples directory and the desired output file name
-input_dir = '/mnt/d/programming/new_lib/codeunify/codeunify'
+input_dir = '/mnt/d/NEW_GUI'
 output_file = '/mnt/d/programming/new_lib/codeunify/codeunify/examples/combined_output_example.txt'
 
 # Combine the files in the examples directory
