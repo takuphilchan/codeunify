@@ -7,7 +7,6 @@ import mimetypes
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-
 # List of metadata directories to exclude
 EXCLUDED_DIRS = {
     '.git', '.svn', '.hg', '.bzr', '__pycache__', '.mypy_cache', '.pytest_cache', '.tox', '.venv', 'env', 'venv',  
@@ -78,9 +77,10 @@ def combine_files(input_dir, output_file, file_types=None, block_indent="\t"):
     input_dir_name = os.path.basename(abs_input_dir)
     
     files_to_combine = []
-    for root, _, files in os.walk(abs_input_dir):
-        if any(excluded in root.split(os.sep) for excluded in EXCLUDED_DIRS):
-            continue
+    for root, dirs, files in os.walk(abs_input_dir):
+        # Exclude directories listed in EXCLUDED_DIRS
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
+        
         for filename in files:
             if not file_types or any(filename.endswith(ext) for ext in file_types):
                 files_to_combine.append(os.path.join(root, filename))
