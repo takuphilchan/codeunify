@@ -4,8 +4,9 @@ import argparse
 import mimetypes
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 # List of metadata directories to exclude
 EXCLUDED_DIRS = {
@@ -122,19 +123,16 @@ def combine_files(input_dir, output_file, file_types=None, block_indent="\t"):
     logger.info(f"All files have been successfully combined into '{output_file}'.")
 
 def parse_args():
-    """
-    Parses command line arguments.
-    """
-    parser = argparse.ArgumentParser(description="Combine code files into a single output file, preserving folder structure.")
-    parser.add_argument('input_dir', help="Directory containing the code files to combine")
-    parser.add_argument('output_file', help="Path where the combined code should be saved")
-    parser.add_argument('--file_types', nargs='*', default=[], help="List of file extensions to include (e.g., .py .txt). Default is to include all files.")
-    parser.add_argument('--block_indent', type=str, default="\t", help="String to prepend to each line of file content (default is a tab).")
+    """Parses command line arguments."""
+    parser = argparse.ArgumentParser(description="Combine code files into a single output file.")
+    parser.add_argument("input_dir", help="Directory containing the code files to combine")
+    parser.add_argument("output_file", help="Path to save the combined file")
+    parser.add_argument("--file_types", nargs="*", default=[], help="List of file extensions to include")
+    parser.add_argument("--block_indent", type=str, default="\t", help="Indentation string (default: tab)")
     return parser.parse_args()
 
 def main():
     args = parse_args()
-    
     try:
         combine_files(args.input_dir, args.output_file, args.file_types, args.block_indent)
     except Exception as e:

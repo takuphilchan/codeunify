@@ -44,7 +44,7 @@ This tool is particularly useful for **AI-assisted development tools**, enabling
 To combine all code files from a directory into a single output file, run:
 
 ```bash
-python combine.py /path/to/code/files output_combined.txt
+codeunify /path/to/code/files output_combined.txt
 ```
 
 ### 2. Combine Specific File Types
@@ -52,7 +52,7 @@ python combine.py /path/to/code/files output_combined.txt
 To only include certain file extensions (e.g., `.py` and `.js`):
 
 ```bash
-python combine.py /path/to/code/files output_combined.txt --file_types .py .js
+codeunify /path/to/code/files output_combined.txt --file_types .py .js
 ```
 
 ### 3. Customize Indentation
@@ -60,7 +60,7 @@ python combine.py /path/to/code/files output_combined.txt --file_types .py .js
 The `--block_indent` flag allows adjusting how much each file's content is indented:
 
 ```bash
-python combine.py /path/to/code/files output_combined.txt --block_indent "    "
+codeunify /path/to/code/files output_combined.txt --block_indent "    "
 ```
 
 (Default indentation is a **tab** `\t`.)
